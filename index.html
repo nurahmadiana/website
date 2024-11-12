@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Peta GIS Leaflet</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      #map { height: 500px; width: 100%; }
+    </style>
+  </head>
+  <body>
+    <p>NAMA : NURAHMA DIANA <br> NIM : 2157201332 <br> PROGRAM STUDI : SISTEM INFORMASI <br> LOKASI : TITIK KOORDINAT SAYA SAAT INI <br> HASIL PETA YANG SAYA BUAT DARI LEAFLET</p>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      // Inisialisasi peta dengan tampilan default sementara
+      var map = L.map('map').setView([-7.371505, 110.167708], 15);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      // Memeriksa apakah geolokasi didukung oleh browser
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          // Mendapatkan koordinat lokasi pengguna
+          var userLat = position.coords.latitude;
+          var userLng = position.coords.longitude;
+
+          // Memperbarui tampilan peta ke lokasi pengguna
+          map.setView([userLat, userLng], 15);
+
+          // Menambahkan marker di lokasi pengguna
+          var marker = L.marker([userLat, userLng]).addTo(map)
+            .bindPopup('Titik koordinat lokasi Anda saat ini')
+            .openPopup();
+        }, function(error) {
+          console.error("Geolocation tidak berhasil: ", error);
+        });
+      } else {
+        alert("Geolocation tidak didukung oleh browser Anda.");
+      }
+    </script>
+  </body>
+</html>
